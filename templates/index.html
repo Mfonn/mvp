@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precision Medicine MVP</title>
+    <script>
+        async function postData(url = '', data = {}) {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            return response.json();
+        }
+
+        async function onboardUser() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const result = await postData('/onboard', { name, email });
+            alert(`User onboarded: ${JSON.stringify(result)}`);
+        }
+
+        async function addObservation() {
+            const observation = document.getElementById('observation').value;
+            const result = await post
+            Data('/observe', { observation });
+            alert(`Observation added: ${JSON.stringify(result)}`);
+        }
+
+        async function getQuestionOfTheDay() {
+            const response = await fetch('/question_of_the_day');
+            const result = await response.json();
+            alert(`Question of the Day: ${result.question}`);
+        }
+
+        async function getDailyAdvice() {
+            const userId = document.getElementById('user_id').value;
+            const response = await fetch(`/daily_advice/${userId}`);
+            const result = await response.json();
+            alert(`Daily Advice: ${JSON.stringify(result.advice)}`);
+        }
+    </script>
+</head>
+<body>
+    <h1>Precision Medicine MVP</h1>
+    <section>
+        <h2>Onboard User</h2>
+        <input type="text" id="name" placeholder="Name" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <button onclick="onboardUser()">Onboard</button>
+    </section>
+
+    <section>
+        <h2>Add Observation</h2>
+        <textarea id="observation" placeholder="Describe your observation" required></textarea>
+        <button onclick="addObservation()">Submit Observation</button>
+    </section>
+
+    <section>
+        <h2>Get Question of the Day</h2>
+        <button onclick="getQuestionOfTheDay()">Get Question</button>
+    </section>
+
+    <section>
+        <h2>Get Daily Advice</h2>
+        <input type="number" id="user_id" placeholder="User ID" required>
+        <button onclick="getDailyAdvice()">Get Advice</button>
+    </section>
+</body>
+</html>
